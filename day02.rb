@@ -11,46 +11,46 @@ def get_key_for(index)
   KEYS[index].to_i
 end
 
-def dispatch(char, from)
+def dispatch(char, index)
   case char
-  when 'U' then move_up(from)
-  when 'D' then move_down(from)
-  when 'L' then move_left(from)
-  when 'R' then move_right(from)
-  else from
+  when 'U' then move_up(index)
+  when 'D' then move_down(index)
+  when 'L' then move_left(index)
+  when 'R' then move_right(index)
+  else index
   end
 end
 
-def move_up(from)
-  can_move_up?(from) ? move_up!(from) : from
+def move_up(index)
+  can_move_up?(index) ? move_up!(index) : index
 end
 
-def move_down(from)
-  can_move_down?(from) ? move_down!(from) : from
+def move_down(index)
+  can_move_down?(index) ? move_down!(index) : index
 end
 
-def move_right(from)
-  can_move_right?(from) ? move_right!(from) : from
+def move_right(index)
+  can_move_right?(index) ? move_right!(index) : index
 end
 
-def move_left(from)
-  can_move_left?(from) ? move_left!(from) : from
+def move_left(index)
+  can_move_left?(index) ? move_left!(index) : index
 end
 
-def can_move_up?(from)
-  !top_row?(from)
+def can_move_up?(index)
+  !top_row?(index)
 end
 
-def can_move_down?(from)
-  !bottom_row?(from)
+def can_move_down?(index)
+  !bottom_row?(index)
 end
 
-def can_move_right?(from)
-  !right_column?(from)
+def can_move_right?(index)
+  !right_column?(index)
 end
 
-def can_move_left?(from)
-  !left_column?(from)
+def can_move_left?(index)
+  !left_column?(index)
 end
 
 def top_row?(n)
@@ -69,25 +69,25 @@ def left_column?(n)
   n % COLUMNS == 0
 end
 
-def move_up!(from)
-  from - COLUMNS
+def move_up!(index)
+  index - COLUMNS
 end
 
-def move_down!(from)
-  from + COLUMNS
+def move_down!(index)
+  index + COLUMNS
 end
 
-def move_right!(from)
-  from + 1
+def move_right!(index)
+  index + 1
 end
 
-def move_left!(from)
-  from - 1
+def move_left!(index)
+  index - 1
 end
 
 code = []
-File.readlines('day02_input.txt').inject(get_index_for(5)) do |from, line|
-  code << line.chars.inject(from) { |from, char| dispatch(char, from) }
+File.readlines('day02_input.txt').inject(get_index_for(5)) do |index, line|
+  code << line.chars.inject(index) { |index, char| dispatch(char, index) }
   code.last
 end
 puts code.map { |index| get_key_for(index) }
