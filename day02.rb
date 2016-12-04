@@ -1,14 +1,19 @@
-KEYPAD = %w(123 456 789)
+INVALID_KEY = '0'
+KEYPAD = %w(00100 02340 56789 0ABC0 00D00)
 KEYS = KEYPAD.join('')
 ROWS = KEYPAD.length
 COLUMNS = KEYPAD[0].length
+
+def valid_key_for?(index)
+  get_key_for(index) != INVALID_KEY
+end
 
 def get_index_for(key)
   KEYS.index(key.to_s)
 end
 
 def get_key_for(index)
-  KEYS[index].to_i
+  KEYS[index]
 end
 
 def dispatch(char, index)
@@ -38,19 +43,19 @@ def move_left(index)
 end
 
 def can_move_up?(index)
-  !top_row?(index)
+  !top_row?(index) && valid_key_for?(move_up!(index))
 end
 
 def can_move_down?(index)
-  !bottom_row?(index)
+  !bottom_row?(index) && valid_key_for?(move_down!(index))
 end
 
 def can_move_right?(index)
-  !right_column?(index)
+  !right_column?(index) && valid_key_for?(move_right!(index))
 end
 
 def can_move_left?(index)
-  !left_column?(index)
+  !left_column?(index) && valid_key_for?(move_left!(index))
 end
 
 def top_row?(n)
