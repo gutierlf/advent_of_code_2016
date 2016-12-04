@@ -1,6 +1,15 @@
-keypad = %w(123 456 789)
-ROWS = keypad.length
-COLUMNS = keypad[0].length
+KEYPAD = %w(123 456 789)
+KEYS = KEYPAD.join('')
+ROWS = KEYPAD.length
+COLUMNS = KEYPAD[0].length
+
+def get_index_for(key)
+  KEYS.index(key.to_s)
+end
+
+def get_key_for(index)
+  KEYS[index].to_i
+end
 
 def dispatch(char, from)
   case char
@@ -45,19 +54,19 @@ def can_move_left?(from)
 end
 
 def top_row?(n)
-  n <= COLUMNS
+  n < COLUMNS
 end
 
 def bottom_row?(n)
-  n > COLUMNS * (ROWS - 1)
+  n > COLUMNS * (ROWS - 1) - 1
 end
 
 def right_column?(n)
-  n % ROWS == 0
+  n % COLUMNS == COLUMNS - 1
 end
 
 def left_column?(n)
-  n % ROWS == 1
+  n % COLUMNS == 0
 end
 
 def move_up!(from)
@@ -77,8 +86,8 @@ def move_left!(from)
 end
 
 code = []
-File.readlines('day02_input.txt').inject(5) do |from, line|
+File.readlines('day02_input.txt').inject(get_index_for(5)) do |from, line|
   code << line.chars.inject(from) { |from, char| dispatch(char, from) }
   code.last
 end
-puts code
+puts code.map { |index| get_key_for(index) }
