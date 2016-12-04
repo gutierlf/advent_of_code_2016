@@ -1,5 +1,6 @@
-ROWS = 3
-COLUMNS = 3
+keypad = %w(123 456 789)
+ROWS = keypad.length
+COLUMNS = keypad[0].length
 
 def dispatch(char, from)
   case char
@@ -12,19 +13,35 @@ def dispatch(char, from)
 end
 
 def move_up(from)
-  !top_row?(from) ? from - COLUMNS : from
+  can_move_up?(from) ? move_up!(from) : from
 end
 
 def move_down(from)
-  !bottom_row?(from) ? from + COLUMNS : from
+  can_move_down?(from) ? move_down!(from) : from
 end
 
 def move_right(from)
-  !right_column?(from) ? from + 1 : from
+  can_move_right?(from) ? move_right!(from) : from
 end
 
 def move_left(from)
-  !left_column?(from) ? from - 1 : from
+  can_move_left?(from) ? move_left!(from) : from
+end
+
+def can_move_up?(from)
+  !top_row?(from)
+end
+
+def can_move_down?(from)
+  !bottom_row?(from)
+end
+
+def can_move_right?(from)
+  !right_column?(from)
+end
+
+def can_move_left?(from)
+  !left_column?(from)
 end
 
 def top_row?(n)
@@ -41,6 +58,22 @@ end
 
 def left_column?(n)
   n % ROWS == 1
+end
+
+def move_up!(from)
+  from - COLUMNS
+end
+
+def move_down!(from)
+  from + COLUMNS
+end
+
+def move_right!(from)
+  from + 1
+end
+
+def move_left!(from)
+  from - 1
 end
 
 code = []
