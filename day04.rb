@@ -32,10 +32,18 @@ def compute_frequencies_hash(name)
   end
 end
 
-answer = File.readlines('day04_input.txt')
-             .map { |encrypted_name| parse_room(encrypted_name) }
-             .select { |room| valid_room?(room) }
-             .map { |room| room[:id] }
-             .inject(&:+)
+def decrypt(name, shift)
+  name.bytes.map do |b|
+    (b.chr == '-') ? ' ' : rotate(b, shift)
+  end.join('')
+end
 
-puts answer
+def rotate(c, shift)
+  ((c - 'a'.ord + shift) % 26 + 'a'.ord).chr
+end
+
+valid_rooms = File.readlines('day04_input.txt')
+                  .map { |encrypted_name| parse_room(encrypted_name) }
+                  .select { |room| valid_room?(room) }
+puts valid_rooms.map { |room| room[:id] }.inject(&:+)
+puts valid_rooms.select { |room| decrypt(room[:name], room[:id])[/north/] }
