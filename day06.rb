@@ -10,6 +10,6 @@ def compute_frequencies_hash(str)
 end
 
 message = File.readlines('day06_input.txt').map { |line| line.chars[0..-2] }.transpose
-              .map { |chars| sort_frequencies_hash(compute_frequencies_hash(chars.join))[-1][0] }
+              .map { |chars| sort_frequencies_hash(compute_frequencies_hash(chars.join))[0][0] }
 
 puts message.join
