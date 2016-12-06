@@ -2,7 +2,7 @@ ROOM_REGEX = /([a-z\-]*)(\d*)\[(.....)\]/
 
 def parse_room(encrypted_name)
   name, id_str, checksum = encrypted_name.scan(ROOM_REGEX)[0]
-  {name: name.delete('-'), id: id_str.to_i, checksum: checksum}
+  {name: name, id: id_str.to_i, checksum: checksum}
 end
 
 def valid_room?(room)
@@ -14,7 +14,8 @@ def compute_checksum(name)
       .sort
       .reverse
       .map { |swapped_pair| swapped_pair[1].chars.sort }
-      .join('')[0..4]
+      .join('')
+      .delete('-')[0..4]
 end
 
 def swap_frequencies_hash(hash)
